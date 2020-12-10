@@ -1,0 +1,130 @@
+---
+output: 
+  pdf_document:
+    latex_engine: pdflatex
+    keep_tex: false
+    dev: cairo_pdf
+    template: svm-latex-resume.tex
+
+title: "Résumé"
+author: "Caleb Williams"
+date: "12/2/2020 -- Update before applying"
+
+fontawesome: TRUE
+geometry: margin=1in
+# geometry: "top=.5in, left =.5in, right=.5in, bottom=.75in"
+
+# How can we get a hold of you?
+email: jcw068@uark.edu
+phone: 870-530-8229
+location: "110 N Stadium, Fayetteville, AR"
+github: Calebwilliams67
+#web: "https://dasc-1104-calebwilliamsblog.netlify.app/"
+linkedin: "john-williams-4398961ba"
+mainfont: cochineal
+sansfont: Fira Sans
+# monofont: Fira Code # I want to use this, but seems to choke on @
+urlcolor: blue
+fontsize: 11pt
+
+includephoto: TRUE
+myphoto: CalebWilliams-Pic.jpg
+# shift: "7in,-.25in" # this is default
+photobigness: 1.75cm
+# photozoom: ".2\textwidth" # this is default
+---
+
+
+<!-- Read more about Pandoc's [fenced_divs](https://pandoc.org/MANUAL.html#extension-fenced_divs) syntax -->
+
+:::::: {.columns}
+::: {.column width="60%" data-latex="{0.60\textwidth}"}
+
+# Professional Experience
+
+## __Park Maintenance (2018)__
+
+Jonesboro Department of Parks and Recreation --- Jonesboro, Arkansas
+
+- Maintained 7 pavilions at Craighead Forest Park\   
+through landscaping, cleaning, and operating machines.
+- Worked in teams on multiple strenuous project.
+- Self-paced work environment where reliability\   
+and work ethic were key. 
+
+## __Real Estate Office Assistant (2019-2020)__
+Jonesboro Select Real Estate --- Jonesboro, Arkansas
+
+- Received office phone calls\
+recording information and relaying it.
+- Created flyers and powerpoints\
+for open houses, closings, and listings
+- Captured photos of listings to be published
+:::
+::: {.column width="2%" data-latex="{0.02\textwidth}"}
+\ 
+<!-- an empty div with an empty character to serve as a column sep -->
+:::
+:::::: {.column width="38%" data-latex="{0.38\textwidth}"}
+
+# Education
+
+## __Highschool__
+Academies at Jonesboro High School --- Jonesboro\
+GPA: 4.17/4.00
+ACT: 32\
+Graduated: May 2020
+
+
+## __B.S. in Data Science__
+
+
+University of Arkansas --- Fayetteville
+_Honors Program_ \
+GPA : Will be updated
+
+# Technical Skills
+
+- Programming: Python, R, TeX,\     
+PowerShell, Bash, RStudio, Visual Studio Code and Microsoft Excel.
+- Data: importation, manipulation, transformation, visualization, and communication.
+- Managing Project Environments
+- Advanced Quantitative Analysis
+- Complex Problem Solving
+
+# Awards and Distinctions
+
+- Chancellor’s Community\   
+Scholarship 
+- Governor’s Distinguished\   
+Scholarship
+- Northeast Arkansas Alumni\
+Chapter Scholarship
+
+
+:::
+::::::
+
+<!-- If you want another page, this is how you can do it... -->
+
+<!-- \newpage
+
+:::::: {.columns}
+::: {.column width="60%" data-latex="{0.60\textwidth}"}
+
+
+
+
+:::
+::: {.column width="2%" data-latex="{0.02\textwidth}"}
+\
+
+
+:::
+:::::: {.column width="38%" data-latex="{0.38\textwidth}"}
+
+
+:::
+::::::
+
+-->

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.79.0" />
+
+
+<title>Hotel Booking Data - DASC 1104 Caleb Williams</title>
+<meta property="og:title" content="Hotel Booking Data - DASC 1104 Caleb Williams">
+
+
+  <link href='https://dasc-1104-calebwilliamsblog.netlify.app/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">5 min read</span>
+    
+
+    <h1 class="article-title">Hotel Booking Data</h1>
+
+    
+    <span class="article-date">2020-12-10</span>
+    
+
+    <div class="article-content">
+      
+<link href="index_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="index_files/anchor-sections/anchor-sections.js"></script>
+
+
+<pre class="r"><code>hotels &lt;- readr::read_csv(&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-11/hotels.csv&#39;)</code></pre>
+<p><strong><strong>Hotel Booking</strong></strong></p>
+<p>For the Hotel Booking project I am going to analyze a data set named hotels.csv from the Tidy Tuesday website to find the how variables affect a customer’s booking and then demonstrate these affects through graphs. The dataset hotels.csv contains 119,390 observations and 32 variables: The variable hotel shows if they booked a resort or city hotel. The variable is_canceled shows if it was canceled or not. The variable lead_time shows the number of days that will elapse before the customer arrive. The variables arrival_date_year, arrival_date_month, arrival_date_week_number and arrival_date_day of the month each specify a specific part of the date. The variables stays_in_weekend_nights and stays_in_week_nights show either the number of weekend or weekday nights the customer stayed. The variables adults, children and babies list the number of each. The meal variable shows the category of hospitality the customer bought. The variable country represents the country of origin. The variable market_segment shows the market segment designation in terms of “TA” meaning “Travel Agents” and “TO” meaning “Tour Operators.” The var is_reapeated_guest shows the value 1 for a reapeated guest and 0 if not. The variables previous_cancellation lists the number of previous cancellations by that customer and previous_bookings_not_canceled lists the number of previous booking not cancelled by the current booking. The variable reserved_room_type shows the type of room reserved and the variable assigned_room_type shows the type of room assigned to the booking. The variable booking_changes shows the number of amendments made from the initial booking until check in. The variable deposit_type categorizes the booking as either No Deposit, Non Refund or Refundable. The variable agent shows the travel agency that made the booking. The variable company shows the id of the company that made the booking. The variable days_in_waiting_list shows the number of days the customer waited until the booking was confirmed. The variable customer_type categorizes the type of booking to either Contract, Group, Transient or Transient-party. The variable adr shows the average daily rate by dividing the sum of all lodge transaction by the number of staying nights. The variable required_car_parking_spaces shows the number of spaces required in the booking. The variable total_of_special_requests shows the number of special requests made by each customer. The variable reservation_status categorizes the customer reservation by Canceled, Check-Out or No-Show. Lastly the variable reservation_status_date shows the date at which reservation was last checked or looked at.</p>
+<div id="question-1" class="section level2">
+<h2><strong>Question 1:</strong></h2>
+</div>
+<div id="how-does-the-proportion-of-hotel-residents-differ-from-customer-type-between-city-hotels-and-resort-hotels" class="section level1">
+<h1><em>How does the proportion of hotel residents differ from customer type between City Hotels and Resort Hotels?</em></h1>
+<p>The customer type variable has 4 different values: Contract, Group, Transient, Transient-Party. I created a bar graph that displays the proportion monthly for each of the four customer types at both types of hotels</p>
+<pre class="r"><code>hotel_stays &lt;- hotels %&gt;%
+  filter(is_canceled == 0)</code></pre>
+<pre class="r"><code>hotel_stays %&gt;%
+  mutate(arrival_date_month = factor(arrival_date_month, levels = month.name)) %&gt;%
+  count(hotel, arrival_date_month, customer_type) %&gt;%
+  group_by(hotel, customer_type) %&gt;%
+  mutate(proportion = n / sum(n)) %&gt;%
+  ggplot(aes(arrival_date_month, proportion, fill = customer_type)) +
+  geom_col(position = &quot;dodge&quot;) +
+  scale_y_continuous(labels = scales::percent_format()) +
+  facet_wrap(~hotel, nrow = 2) +
+  labs( title = &quot;Proportional Hotel Stays Per Customer Type (Monthly)&quot;,
+        x = NULL, y = &quot;Proportion of hotel stays&quot;, fill = NULL) +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div id="question-2" class="section level2">
+<h2><strong>Question 2:</strong></h2>
+</div>
+</div>
+<div id="how-do-cancellations-differ-between-the-two-types-of-hotels" class="section level1">
+<h1><em>How do cancellations differ between the two types of hotels?</em></h1>
+<p>The two types of hotels in the variable hotel are City and Resort. The first of the two graph demonstrates the cancellation rates for City Hotels and Resort Hotels. The cancellation rates shows that the percentage of canceled bookings is higher for both types of hotels, with the city hotel being responsible for 38.7 % of cancellations and the resort hotel making up 24.2% more. The second of the two graphs below displays box-plots for the canceled bookings and non canceled bookings, and then plots the lead_time value for both city hotels and resort hotels. The cancellation rates shows that the percentage of canceled bookings is higher for both types of hotels, with the city hotel being responsible for 38.7 % of cancellations and the resort hotel making up 24.2% more. The boxplot shows that their is less lead time on the average canceled booking.</p>
+<pre class="r"><code>plot1 &lt;- ggplot(hotels, aes(hotel, prop.table(stat(count)), fill = factor(is_canceled), label = scales::percent(prop.table(stat(count))))) +
+  geom_bar(position = position_dodge2()) +
+  geom_text(stat = &quot;count&quot;, position = position_dodge2(.75), vjust = .05, size = 3) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = &quot;Cancellation Rate Per Hotel Type&quot;, x = &quot;Hotel Type&quot;, y = &quot;Proportion &quot;) +
+  theme_light() +
+  scale_fill_discrete(name = &quot;Status&quot;, breaks = c(&quot;0&quot;, &quot;1&quot;), labels = c(&quot;Canceled&quot;, &quot;Not Canceled&quot;))
+
+plot2 &lt;- ggplot(hotels, aes(x = hotel, y = lead_time, fill = factor(is_canceled))) +
+  geom_boxplot(position = position_dodge2()) +
+  labs(title = &quot;Cancellation Based On Lead Time&quot;, x = &quot;Hotel Type&quot;, y = &quot;Lead Time in Days&quot; ) +
+  scale_fill_discrete(name = &quot;Status&quot;, breaks = c(&quot;0&quot;, &quot;1&quot;), labels = c(&quot;Canceled&quot;, &quot;Not Canceled&quot;)) + theme_light()
+
+grid.arrange(plot1, plot2, ncol = 2)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div id="question-3" class="section level2">
+<h2><strong>Question 3?</strong></h2>
+</div>
+</div>
+<div id="how-does-the-booking-status-change-for-each-country" class="section level1">
+<h1><em>How does the booking status change for each country?</em></h1>
+<p>The booking status has a wide variety of values when comparing coutries</p>
+<pre class="r"><code>library(countrycode)
+hotels_1 &lt;- hotels[hotels$reservation_status == &quot;Check-Out&quot;,]
+sub_hotel &lt;- hotels_1 %&gt;% 
+  group_by(country) %&gt;% 
+  filter(n() &gt; 1500)
+sub_hotel$county_name &lt;- countrycode(sub_hotel$country, origin = &quot;iso3c&quot;, 
+                                     destination = &quot;country.name&quot;)
+ggplot(sub_hotel, aes(county_name, fill = hotel)) + 
+  geom_bar(stat = &quot;count&quot;, position = position_dodge()) + 
+  labs(title = &quot;Booking Status by Country&quot;,
+       x = &quot;Country&quot;,
+       y = &quot;Count&quot;) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1),
+        panel.background = element_blank())</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+

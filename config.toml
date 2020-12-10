@@ -1,6 +1,6 @@
-baseurl = "/"
+baseurl = "https://dasc-1104-calebwilliamsblog.netlify.app/"
 languageCode = "en-us"
-title = "A Hugo website"
+title = "DASC 1104 Caleb Williams"
 theme = "hugo-lithium"
 googleAnalytics = ""
 disqusShortname = ""

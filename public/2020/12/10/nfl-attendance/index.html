@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.79.0" />
+
+
+<title>NFL Attendance - DASC 1104 Caleb Williams</title>
+<meta property="og:title" content="NFL Attendance - DASC 1104 Caleb Williams">
+
+
+  <link href='https://dasc-1104-calebwilliamsblog.netlify.app/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">6 min read</span>
+    
+
+    <h1 class="article-title">NFL Attendance</h1>
+
+    
+    <span class="article-date">2020-12-10</span>
+    
+
+    <div class="article-content">
+      
+<link href="index_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="index_files/anchor-sections/anchor-sections.js"></script>
+
+
+<pre class="r"><code>attendance50 &lt;- readr::read_csv(&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/attendance.csv&#39;)
+standings &lt;- readr::read_csv(&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/standings.csv&#39;)
+games &lt;- readr::read_csv(&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv&#39;)</code></pre>
+<p><strong><strong>NFL Attendance</strong></strong></p>
+<p>For this NFL Attendance project, I am using 3 proposed datasets coming from the Tidy Tuesday website to analyze NFL attendance and how it affects the NFL. The three datasets are filled with data coming from the source Pro Football Reference. The first dataset is attendance.csv and it consists of 10,846 observations and 8 different variables.</p>
+<p>The variable team is used to represents the team’s city and the variable team_name is used to represent the team’s mascot. The variable year represents what year the data is from. The variable total shows the total attendance across 17 weeks with 1 week = no game. The variable home shows the home teams attendance for the game and the variable away shows the away team’s attendance. The variable week represents the week number for the season. Lastly the weekly_attendance variable shows the weekly attendance number.</p>
+<p>The second dataset we used to analyze the affect of attendance on an NFL game is standings.csv. The dataset consists of 638 observations and 15 variables. The variables team and team_name still both represent the team’s city and the team’s mascot. The variable year represents the year. The variable wins represent the wins from 0 to 16 and the variable loss represent the losses from 0 to 16. The variables points_for and points_against represent the offensive and defensive performance by showing the points scored/the points scored on. The variable points_differential shows the point differential by performing (points_for – points_against). The variable margin_of_victory shows the margin of victory in a game by performing (Points Scored – Points Allowed)/ Games Played. The variable strength_of_schedule measures the Average quality of opponent measured by the SRS(Simple Rating System).. The variable simple_rating measures a team quality relative to average (0.0) by using the SRS “SRS = MoV + SoS = OSRS + DSRS”. The variables offensive_ranking and defensive_ranking measure a teams quality of offense or defense relative to the SRS(Simple Rating System).. The variable playoffs shows wether a team made the playoffs or not. The variable sb_winner shows if the team won the superbowl or not.</p>
+<div id="question-1" class="section level2">
+<h2><strong>Question 1:</strong></h2>
+</div>
+<div id="was-there-a-correlation-between-home-attendance-and-win-percentage-in-the-2000-nfl-season" class="section level1">
+<h1><em>Was there a correlation between Home attendance and Win percentage in the 2000 NFL Season?</em></h1>
+<p>To find the correlation between Home attendance and Win percentage in the 2000 NFL season I created a graph of the average yearly attendance for each team and plotted it on the x-axis variable and on the y-axis variable I used the win percentage for the teams.</p>
+<pre class="r"><code>nfl_data &lt;- dplyr::left_join(attendance50, standings, games, by = c(&quot;year&quot;, &quot;team_name&quot;, &quot;team&quot;))
+nfl_data = na.omit(nfl_data)
+nfl_data_numeric &lt;- mutate_all(nfl_data, function(x) as.numeric(as.character(x)))</code></pre>
+<pre><code>## Warning in (function (x) : NAs introduced by coercion</code></pre>
+<pre><code>## Warning in (function (x) : NAs introduced by coercion</code></pre>
+<pre><code>## Warning in (function (x) : NAs introduced by coercion</code></pre>
+<pre><code>## Warning in (function (x) : NAs introduced by coercion</code></pre>
+<pre class="r"><code>nfl_data_numeric[&#39;team&#39;] = nfl_data[&#39;team&#39;]
+nfl_data_numeric[&#39;team_name&#39;] = nfl_data[&#39;team_name&#39;]
+nfl_data_numeric[&#39;playoffs&#39;] = nfl_data[&#39;playoffs&#39;]
+nfl_data_numeric[&#39;sb_winner&#39;] = nfl_data[&#39;sb_winner&#39;]
+
+attendance = nfl_data_numeric[match(unique(nfl_data_numeric$home), nfl_data_numeric$home),]
+attendance = subset(attendance, select = c(team_name, home, year, wins, loss))
+attendance[&#39;win_percent&#39;] = attendance[&#39;wins&#39;]/(attendance[&#39;wins&#39;]+attendance[&#39;loss&#39;])
+attendance2 &lt;- filter(attendance, year == &quot;2000&quot;)
+ggplot(attendance2, aes(home, win_percent)) +
+  geom_smooth() +
+  labs(title = &quot;Home Attendance Vs Win Percent (2000 NFL Season)&quot;, x = &quot;Yearly Attendance&quot;, y = &quot;Win Percentage&quot; )</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>attendance2</code></pre>
+<pre><code>## # A tibble: 31 x 6
+##    team_name   home  year  wins  loss win_percent
+##    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Cardinals 387475  2000     3    13       0.188
+##  2 Falcons   422814  2000     4    12       0.25 
+##  3 Ravens    551695  2000    12     4       0.75 
+##  4 Bills     560695  2000     8     8       0.5  
+##  5 Panthers  583489  2000     7     9       0.438
+##  6 Bears     535552  2000     5    11       0.312
+##  7 Bengals   469992  2000     4    12       0.25 
+##  8 Browns    581544  2000     3    13       0.188
+##  9 Cowboys   504360  2000     5    11       0.312
+## 10 Broncos   604042  2000    11     5       0.688
+## # … with 21 more rows</code></pre>
+<div id="question-2" class="section level2">
+<h2><strong>Question 2:</strong></h2>
+</div>
+</div>
+<div id="how-does-division-affect-attendance-and-win-percentage-in-the-american-football-conference" class="section level1">
+<h1><em>How does division affect attendance and win percentage in the American Football Conference?</em></h1>
+<p>The American Football conference is divided into four divisions and each of these divisions consists of four teams. I first needed to group the teams into their corresponding conferences and then join them into one data frame. I then printed the average attendance for each conference on a bar graph and on a separate bar graph I show the win percentages for each conference.</p>
+<pre class="r"><code>afc_west = dplyr::filter(nfl_data_numeric, team %in% c(&quot;Kansas City&quot;, &quot;Oakland&quot;, &quot;Denver&quot;, &quot;San Diego&quot;))
+attendance = afc_west[match(unique(afc_west$home), afc_west$home),]
+attendance = subset(attendance, select = c(team_name, home, wins, loss))
+attendance &lt;- aggregate(. ~  team_name, attendance, sum)
+attendance[&#39;win_percent&#39;] = attendance[&#39;wins&#39;]/(attendance[&#39;wins&#39;]+attendance[&#39;loss&#39;])
+afc_west &lt;- attendance
+afc_west</code></pre>
+<pre><code>##   team_name     home wins loss win_percent
+## 1   Broncos 12159820  182  138    0.568750
+## 2  Chargers  8605896  136  136    0.500000
+## 3    Chiefs 11964694  166  154    0.518750
+## 4   Raiders  8831829  125  195    0.390625</code></pre>
+<pre class="r"><code>afc_east = dplyr::filter(nfl_data_numeric, team_name %in% c(&quot;Bills&quot;, &quot;Dolphins&quot;, &quot;Patriots&quot;, &quot;Jets&quot;))
+attendance = afc_east[match(unique(afc_east$home), afc_east$home),]
+attendance = subset(attendance, select = c(team_name, home, wins, loss))
+attendance &lt;- aggregate(. ~  team_name, attendance, sum)
+attendance[&#39;win_percent&#39;] = attendance[&#39;wins&#39;]/(attendance[&#39;wins&#39;]+attendance[&#39;loss&#39;])
+afc_east &lt;- attendance
+afc_east</code></pre>
+<pre><code>##   team_name     home wins loss win_percent
+## 1     Bills 10784670  137  183   0.4281250
+## 2  Dolphins 10929713  149  171   0.4656250
+## 3      Jets 11232265  133  155   0.4618056
+## 4  Patriots  3191572   65   31   0.6770833</code></pre>
+<pre class="r"><code>afc_north = dplyr::filter(nfl_data_numeric, team %in% c(&quot;Pittsburgh&quot;, &quot;Cleveland&quot;, &quot;Baltimore&quot;, &quot;Cincinnati&quot;))
+attendance = afc_north[match(unique(afc_north$home), afc_north$home),]
+attendance = subset(attendance, select = c(team_name, home, wins, loss))
+attendance &lt;- aggregate(. ~  team_name, attendance, sum)
+attendance[&#39;win_percent&#39;] = attendance[&#39;wins&#39;]/(attendance[&#39;wins&#39;]+attendance[&#39;loss&#39;])
+afc_north &lt;- attendance
+afc_north</code></pre>
+<pre><code>##   team_name     home wins loss win_percent
+## 1   Bengals  9527276  145  172   0.4574132
+## 2    Browns 11114495   99  220   0.3103448
+## 3    Ravens 11291595  190  130   0.5937500
+## 4  Steelers  9918492  205  113   0.6446541</code></pre>
+<pre class="r"><code>afc_south = dplyr::filter(nfl_data_numeric, team %in% c(&quot;Tennessee&quot;, &quot;Indianapolis&quot;, &quot;Houston&quot;, &quot;Jacksonville&quot;))
+attendance = afc_south[match(unique(afc_south$home), afc_south$home),]
+attendance = subset(attendance, select = c(team_name, home, wins, loss))
+attendance &lt;- aggregate(. ~  team_name, attendance, sum)
+attendance[&#39;win_percent&#39;] = attendance[&#39;wins&#39;]/(attendance[&#39;wins&#39;]+attendance[&#39;loss&#39;])
+afc_south &lt;- attendance
+afc_south</code></pre>
+<pre><code>##   team_name     home wins loss win_percent
+## 1     Colts  9855079  197  123   0.6156250
+## 2   Jaguars 10054557  127  193   0.3968750
+## 3    Texans 10237938  131  157   0.4548611
+## 4    Titans  6429529   99   93   0.5156250</code></pre>
+<pre class="r"><code>afc_west_no_name = subset(afc_west, select = -c(team_name))
+afc_west_avg = colMeans(afc_west_no_name)
+#afc_west_avg
+
+afc_east_no_name = subset(afc_east, select = -c(team_name))
+afc_east_avg = colMeans(afc_east_no_name)
+#afc_east_avg
+
+afc_north_no_name = subset(afc_north, select = -c(team_name))
+afc_north_avg = colMeans(afc_north_no_name)
+#afc_north_avg
+
+afc_south_no_name = subset(afc_south, select = -c(team_name))
+afc_south_avg = colMeans(afc_south_no_name)
+#afc_south_avg
+
+total &lt;- rbind(afc_west_avg, afc_east_avg, afc_north_avg, afc_south_avg)
+total &lt;- as.data.frame(total)
+total[&#39;home&#39;] = total[&#39;home&#39;]
+total</code></pre>
+<pre><code>##                   home   wins   loss win_percent
+## afc_west_avg  10390560 152.25 155.75   0.4945312
+## afc_east_avg   9034555 121.00 135.00   0.5081597
+## afc_north_avg 10462964 159.75 158.75   0.5015405
+## afc_south_avg  9144276 138.50 141.50   0.4957465</code></pre>
+<pre class="r"><code>plot1 &lt;- barplot(t(as.matrix(total[&#39;home&#39;])), main = &quot;Average Attendance Per AFC Divsion&quot;, names.arg=c(&quot;AFC West&quot;, &quot;AFC East&quot;, &quot;AFC North&quot;, &quot;AFC South&quot;), beside=TRUE)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>plot2 &lt;- barplot(t(as.matrix(total[&#39;win_percent&#39;])), ylim = c(0.2,0.55), main = &quot;Win Percentage Per AFC Divsion&quot;, cex.axis=1.3, names.arg=c(&quot;AFC West&quot;, &quot;AFC East&quot;, &quot;AFC North&quot;, &quot;AFC South&quot;), beside=TRUE)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<div id="question-3" class="section level2">
+<h2><strong>Question 3:</strong></h2>
+</div>
+</div>
+<div id="how-does-nfl-wide-attendance-change-throughout-the-season" class="section level1">
+<h1><em>How does NFL wide attendance change throughout the season?</em></h1>
+<p>NFL attendance fluctuates throughout the season and depending on the weekend it can have a large effect. The graph below presents the average game attendance each weekend through the years 2000 to 2019. This graph displays the average weekly attendance being its highest at the beginning and end of the season.</p>
+<pre class="r"><code>new_data &lt;- subset(nfl_data_numeric, select = -c(team_name, playoffs, sb_winner, team) )
+week_att = aggregate(. ~  week, new_data, sum)
+week_att = subset(week_att, select = c(week, weekly_attendance))
+week_att[&#39;weekly_attendance&#39;] = week_att[&#39;weekly_attendance&#39;]/20/32
+ggplot(week_att, aes(week, weekly_attendance)) +
+  geom_col() +
+  scale_x_continuous(breaks=c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17)) +
+  labs(title = &quot;Average NFL Game Attendance, Per Week&quot;,
+       x = &quot;Week&quot;,
+       y = &quot;Weekly Attendance&quot;)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+

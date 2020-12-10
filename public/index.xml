@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DASC 1104 Caleb Williams</title>
+    <link>https://dasc-1104-calebwilliamsblog.netlify.app/</link>
+    <description>Recent content on DASC 1104 Caleb Williams</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 10 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://dasc-1104-calebwilliamsblog.netlify.app/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hotel Booking Data</title>
+      <link>https://dasc-1104-calebwilliamsblog.netlify.app/2020/12/10/hotel-booking-data/</link>
+      <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://dasc-1104-calebwilliamsblog.netlify.app/2020/12/10/hotel-booking-data/</guid>
+      <description>hotels &amp;lt;- readr::read_csv(&amp;#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-11/hotels.csv&amp;#39;) Hotel Booking
+For the Hotel Booking project I am going to analyze a data set named hotels.csv from the Tidy Tuesday website to find the how variables affect a customer’s booking and then demonstrate these affects through graphs. The dataset hotels.csv contains 119,390 observations and 32 variables: The variable hotel shows if they booked a resort or city hotel. The variable is_canceled shows if it was canceled or not.</description>
+    </item>
+    
+    <item>
+      <title>NFL Attendance</title>
+      <link>https://dasc-1104-calebwilliamsblog.netlify.app/2020/12/10/nfl-attendance/</link>
+      <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://dasc-1104-calebwilliamsblog.netlify.app/2020/12/10/nfl-attendance/</guid>
+      <description>attendance50 &amp;lt;- readr::read_csv(&amp;#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/attendance.csv&amp;#39;) standings &amp;lt;- readr::read_csv(&amp;#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/standings.csv&amp;#39;) games &amp;lt;- readr::read_csv(&amp;#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv&amp;#39;) NFL Attendance
+For this NFL Attendance project, I am using 3 proposed datasets coming from the Tidy Tuesday website to analyze NFL attendance and how it affects the NFL. The three datasets are filled with data coming from the source Pro Football Reference. The first dataset is attendance.csv and it consists of 10,846 observations and 8 different variables.
+The variable team is used to represents the team’s city and the variable team_name is used to represent the team’s mascot.</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://dasc-1104-calebwilliamsblog.netlify.app/about/</link>
+      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
+      
+      <guid>https://dasc-1104-calebwilliamsblog.netlify.app/about/</guid>
+      <description>Im Caleb Williams</description>
+    </item>
+    
+  </channel>
+</rss>
