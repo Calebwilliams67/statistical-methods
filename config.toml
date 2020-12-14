@@ -8,16 +8,18 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
 
 [permalinks]
     post = "/:year/:month/:day/:slug/"
-
+[[menu.main]]
+    name = "About"
+    url = "/content/about.md"
 [[menu.main]]
     name = "Resume"
     url = "/resume-master/resume-example.pdf"
 [[menu.main]]
     name = "GitHub"
-    url = "https://github.com/rstudio/blogdown"
+    url = "https://github.com/Calebwilliams67/statistical-methods"
 [[menu.main]]
     name = "Twitter"
-    url = "https://twitter.com/rstudio"
+    url = "https://twitter.com/CalebWi69573556"
 
 [params]
     description = "A website built through Hugo and blogdown."

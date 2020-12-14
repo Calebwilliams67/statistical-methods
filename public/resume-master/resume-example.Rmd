@@ -1,37 +1,29 @@
 ---
-output: 
-  pdf_document:
-    latex_engine: pdflatex
-    keep_tex: false
-    dev: cairo_pdf
-    template: svm-latex-resume.tex
-
 title: "Résumé"
 author: "Caleb Williams"
 date: "12/2/2020 -- Update before applying"
-
-fontawesome: TRUE
+output:
+  pdf_document:
+    latex_engine: pdflatex
+    keep_tex: no
+    dev: cairo_pdf
+    template: svm-latex-resume.tex
+  html_document:
+    df_print: paged
+fontawesome: yes
 geometry: margin=1in
-# geometry: "top=.5in, left =.5in, right=.5in, bottom=.75in"
-
-# How can we get a hold of you?
 email: jcw068@uark.edu
 phone: 870-530-8229
-location: "110 N Stadium, Fayetteville, AR"
+location: 110 N Stadium, Fayetteville, AR
 github: Calebwilliams67
-#web: "https://dasc-1104-calebwilliamsblog.netlify.app/"
-linkedin: "john-williams-4398961ba"
+linkedin: john-williams-4398961ba
 mainfont: cochineal
 sansfont: Fira Sans
-# monofont: Fira Code # I want to use this, but seems to choke on @
 urlcolor: blue
 fontsize: 11pt
-
-includephoto: TRUE
+includephoto: yes
 myphoto: CalebWilliams-Pic.jpg
-# shift: "7in,-.25in" # this is default
 photobigness: 1.75cm
-# photozoom: ".2\textwidth" # this is default
 ---
 
 

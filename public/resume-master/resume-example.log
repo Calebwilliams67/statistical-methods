@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.10)  10 DEC 2020 14:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.10)  10 DEC 2020 16:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -712,8 +712,7 @@ Package hyperref Warning: Option `bookmarks' has already been used,
 File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 \l__kernel_color_stack_int=\count330
 \l__pdf_internal_box=\box62
-)
-No file resume-example.aux.
+) (./resume-example.aux)
 \openout1 = `resume-example.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 139.
@@ -756,6 +755,7 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 139.
 LaTeX Info: Redefining \pageref on input line 139.
 LaTeX Info: Redefining \nameref on input line 139.
+(./resume-example.out) (./resume-example.out)
 \@outlinefile=\write4
 \openout4 = `resume-example.out'.
 
@@ -799,26 +799,112 @@ File: fc-english.def 2016/01/12
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
 (lastpage)             ! on input line 139.
+<CalebWilliams-Pic.jpg, id=39, 1574.7633pt x 1049.8422pt>
+File: CalebWilliams-Pic.jpg Graphic file (type jpg)
+<use CalebWilliams-Pic.jpg>
+Package pdftex.def Info: CalebWilliams-Pic.jpg  used on input line 144.
+(pdftex.def)             Requested size: 93.94957pt x 62.61937pt.
+LaTeX Font Info:    Trying to load font information for U+fontawesometwo on inp
+ut line 154.
+(/home/jcw068/.TinyTeX/texmf-dist/tex/latex/fontawesome/ufontawesometwo.fd
+File: ufontawesometwo.fd 2016/05/22 Font definitions for U/fontawesometwo.
+)
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
+54.
+(/home/jcw068/.TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
+54.
+(/home/jcw068/.TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
+File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
+54.
+(/home/jcw068/.TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
+File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
+154.
+(/home/jcw068/.TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
+File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
+154.
+(/home/jcw068/.TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
+File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 154.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 154.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 154.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 154
+.
+(/home/jcw068/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 154
+.
+(/home/jcw068/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for U+fontawesomethree on i
+nput line 161.
+(/home/jcw068/.TinyTeX/texmf-dist/tex/latex/fontawesome/ufontawesomethree.fd
+File: ufontawesomethree.fd 2016/05/22 Font definitions for U/fontawesomethree.
+)
+LaTeX Font Info:    Trying to load font information for T1+lmss on input line 1
+69.
+(/home/jcw068/.TinyTeX/texmf-dist/tex/latex/lm/t1lmss.fd
+File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
 
-LaTeX Warning: File `CalebWilliams-Pic.jpg' not found on input line 144.
+LaTeX Font Warning: Font shape `T1/lmr/bx/sc' undefined
+(Font)              using `T1/lmr/bx/n' instead on input line 173.
 
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
+78.
+(/home/jcw068/.TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+) 
+AED: lastpage setting LastPage
+[1
 
-! Package pdftex.def Error: File `CalebWilliams-Pic.jpg' not found: using draft
- setting.
+{/home/jcw068/.TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./CalebWi
+lliams-Pic.jpg>] (./resume-example.aux)
+Package rerunfilecheck Info: File `resume-example.out' has not changed.
+(rerunfilecheck)             Checksum: 8568BC24E678D124C709369453877691;1263.
 
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.144 ...idth=.2\textwidth]{CalebWilliams-Pic.jpg}
-                                                  }; 
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ ) 
 Here is how much of TeX's memory you used:
- 23891 strings out of 481331
- 415715 string characters out of 5917526
- 706282 words of memory out of 5000000
- 40329 multiletter control sequences out of 15000+600000
- 406720 words of font info for 29 fonts, out of 8000000 for 9000
+ 24206 strings out of 481331
+ 422218 string characters out of 5917526
+ 725327 words of memory out of 5000000
+ 40566 multiletter control sequences out of 15000+600000
+ 466794 words of font info for 64 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 80i,2n,85p,1026b,603s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 80i,11n,85p,1026b,654s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/home/jcw068/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/home/jcw068/
+.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/home/jcw068/.TinyTeX/texmf-
+dist/fonts/enc/dvips/fontawesome/fontawesomethree.enc}{/home/jcw068/.TinyTeX/te
+xmf-dist/fonts/enc/dvips/fontawesome/fontawesometwo.enc}</home/jcw068/.TinyTeX/
+texmf-dist/fonts/type1/public/fontawesome/FontAwesome.pfb></home/jcw068/.TinyTe
+X/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></home/jcw068/.TinyTeX/texmf-dist
+/fonts/type1/public/lm/lmbx12.pfb></home/jcw068/.TinyTeX/texmf-dist/fonts/type1
+/public/lm/lmr10.pfb></home/jcw068/.TinyTeX/texmf-dist/fonts/type1/public/lm/lm
+r8.pfb></home/jcw068/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb></home/
+jcw068/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></home/jcw068/.Tiny
+TeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb></home/jcw068/.TinyTeX/texmf-dis
+t/fonts/type1/public/lm/lmssbx10.pfb></home/jcw068/.TinyTeX/texmf-dist/fonts/ty
+pe1/public/lm/lmtt9.pfb>
+Output written on resume-example.pdf (1 page, 15469290 bytes).
+PDF statistics:
+ 115 PDF objects out of 1000 (max. 8388607)
+ 100 compressed objects within 1 object stream
+ 18 named destinations out of 1000 (max. 500000)
+ 82 words of extra memory for PDF output out of 10000 (max. 10000000)
 
-!  ==> Fatal error occurred, no output PDF file produced!
