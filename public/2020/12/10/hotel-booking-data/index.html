@@ -38,7 +38,7 @@
       <header class="header">
         <nav class="nav">
   <a href="/" class="nav-logo">
-    <img src="/images/CalebWilliams-Pic.jpg"
+    <img src="/images/logo.png"
          width="50"
          height="50"
          alt="Logo">
@@ -46,7 +46,7 @@
 
   <ul class="nav-links">
     
-    <li><a href="about.md">About</a></li>
+    <li><a href="/about.md">About</a></li>
     
     <li><a href="https://github.com/Calebwilliams67/statistical-methods">GitHub</a></li>
     
@@ -85,8 +85,8 @@
 <div id="question-1" class="section level2">
 <h2><strong>Question 1:</strong></h2>
 </div>
-<div id="how-does-the-proportion-of-hotel-residents-differ-from-customer-type-between-city-hotels-and-resort-hotels" class="section level1">
-<h1><em>How does the proportion of hotel residents differ from customer type between City Hotels and Resort Hotels?</em></h1>
+<div id="how-does-the-proportion-of-hotel-residents-differ-from-customer-type-at-two-different-types-of-hotels" class="section level1">
+<h1><em>How does the proportion of hotel residents differ from customer type at two different types of hotels?</em></h1>
 <p>The customer type variable has 4 different values: Contract, Group, Transient, Transient-Party. I created a bar graph that displays the proportion monthly for each of the four customer types at both types of hotels</p>
 <pre class="r"><code>hotel_stays &lt;- hotels %&gt;%
   filter(is_canceled == 0)</code></pre>
@@ -137,15 +137,14 @@ hotels_1 &lt;- hotels[hotels$reservation_status == &quot;Check-Out&quot;,]
 sub_hotel &lt;- hotels_1 %&gt;% 
   group_by(country) %&gt;% 
   filter(n() &gt; 1500)
-sub_hotel$county_name &lt;- countrycode(sub_hotel$country, origin = &quot;iso3c&quot;, 
-                                     destination = &quot;country.name&quot;)
+sub_hotel$county_name &lt;- countrycode(sub_hotel$country, origin = &quot;iso3c&quot;, destination = &quot;country.name&quot;)
 ggplot(sub_hotel, aes(county_name, fill = hotel)) + 
   geom_bar(stat = &quot;count&quot;, position = position_dodge()) + 
   labs(title = &quot;Booking Status by Country&quot;,
        x = &quot;Country&quot;,
        y = &quot;Count&quot;) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1),
-        panel.background = element_blank())</code></pre>
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5),
+        panel.background = element_blank()) + facet_wrap(~arrival_date_month)</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 

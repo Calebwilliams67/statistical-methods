@@ -24,7 +24,7 @@ For the Hotel Booking project I am going to analyze a data set named hotels.csv 
 
 
 ## __Question 1:__
-# _How does the proportion of hotel residents differ from customer type between City Hotels and Resort Hotels?_
+# _How does the proportion of hotel residents differ from customer type at two different types of hotels?_
 The customer type variable has 4 different values: Contract, Group, Transient, Transient-Party. I created a bar graph that displays the proportion monthly for each of the four customer types at both types of hotels
 
 ```{r}
@@ -81,15 +81,14 @@ hotels_1 <- hotels[hotels$reservation_status == "Check-Out",]
 sub_hotel <- hotels_1 %>% 
   group_by(country) %>% 
   filter(n() > 1500)
-sub_hotel$county_name <- countrycode(sub_hotel$country, origin = "iso3c", 
-                                     destination = "country.name")
+sub_hotel$county_name <- countrycode(sub_hotel$country, origin = "iso3c", destination = "country.name")
 ggplot(sub_hotel, aes(county_name, fill = hotel)) + 
   geom_bar(stat = "count", position = position_dodge()) + 
   labs(title = "Booking Status by Country",
        x = "Country",
        y = "Count") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1),
-        panel.background = element_blank())
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5),
+        panel.background = element_blank()) + facet_wrap(~arrival_date_month)
 ```
 
 
