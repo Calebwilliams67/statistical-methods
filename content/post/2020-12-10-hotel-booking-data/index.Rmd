@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 library(ggplot2)
 library(gridExtra)
+library(skimr)
 ```
 
 ```{r, message=FALSE}
@@ -20,17 +21,38 @@ hotels <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tid
 
 **__Hotel Booking__**
 
-For the Hotel Booking project I am going to analyze a data set named hotels.csv from the Tidy Tuesday website to find the how variables affect a customer’s booking and then demonstrate these affects through graphs. The dataset hotels.csv contains 119,390 observations and 32 variables: The variable hotel shows if they booked a resort or city hotel. The variable is_canceled shows if it was canceled or not. The variable lead_time shows the number of days that will elapse before the customer arrive. The variables arrival_date_year, arrival_date_month, arrival_date_week_number and arrival_date_day of the month each specify a specific part of the date. The variables stays_in_weekend_nights and stays_in_week_nights show either the number of weekend or weekday nights the customer stayed. The variables adults, children and babies list the number of each. The meal variable shows the category of hospitality the customer bought. The variable country represents the country of origin. The variable market_segment shows the market segment designation in terms of “TA” meaning “Travel Agents” and “TO” meaning “Tour Operators.” The var is_reapeated_guest shows the value 1 for a reapeated guest and 0 if not. The variables previous_cancellation lists the number of previous cancellations by that customer and previous_bookings_not_canceled lists the number of previous booking not cancelled by the current booking. The variable reserved_room_type shows the type of room reserved and the variable assigned_room_type shows the type of room assigned to the booking. The variable booking_changes shows the number of amendments made from the initial booking until check in. The variable deposit_type categorizes the booking as either No Deposit, Non Refund or Refundable. The variable agent shows the travel agency that made the booking. The variable company shows the id of the company that made the booking. The variable days_in_waiting_list shows the number of days the customer waited until the booking was confirmed. The variable customer_type categorizes the type of booking to either Contract, Group, Transient or Transient-party. The variable adr shows the average daily rate by dividing the sum of all lodge transaction by the number of staying nights. The variable required_car_parking_spaces shows the number of spaces required in the booking. The variable total_of_special_requests shows the number of special requests made by each customer. The variable reservation_status categorizes the customer reservation by Canceled, Check-Out or No-Show. Lastly the variable reservation_status_date shows the date at which reservation was last checked or looked at.
+For the Hotel Booking project I am going to analyze a data set named hotels.csv from the Tidy Tuesday website to find correlations in customer’s booking data and the affects they have. The dataset I am using is hotels.csv and it contains 119,390 observations and 32 variables: 
+```{r}
+head(hotels)
+```
+The variable hotel shows the type of hotel they booked whether it be a resort or city hotel. The variable is_canceled shows if the booking was canceled or not. The variable lead_time shows the number of days between the customers booking and the customer arriving. The variables arrival_date_year, arrival_date_month, arrival_date_week_number and arrival_date_day each specify a specific part of the customers booking date. The variables stays_in_weekend_nights and stays_in_week_nights display either the number of weekend or weekday nights the customer stayed. The variables adults, children and babies list the numbers of each. The variable meal shows the category/level of hospitality the customer bought. The variable country represents the country of origin for the . The variable market_segment shows the market segment designation in terms of “TA” meaning “Travel Agents” and “TO” meaning “Tour Operators.” The var is_reapeated_guest shows the value 1 for a reapeated guest and 0 if not. The variables previous_cancellation lists the number of previous cancellations by that customer and previous_bookings_not_canceled lists the number of previous booking not cancelled by the current booking. The variable reserved_room_type shows the type of room reserved and the variable assigned_room_type shows the type of room assigned to the booking. The variable booking_changes shows the number of amendments made from the initial booking until check in. The variable deposit_type categorizes the booking as either No Deposit, Non Refund or Refundable. The variable agent shows the travel agency that made the booking. The variable company shows the id of the company that made the booking. The variable days_in_waiting_list shows the number of days the customer waited until the booking was confirmed. The variable customer_type categorizes the type of booking to either Contract, Group, Transient or Transient-party. The variable adr shows the average daily rate by dividing the sum of all lodge transaction by the number of staying nights. The variable required_car_parking_spaces shows the number of spaces required in the booking. The variable total_of_special_requests shows the number of special requests made by each customer. The variable reservation_status categorizes the customer reservation by Canceled, Check-Out or No-Show. Lastly the variable reservation_status_date shows the date at which reservation was last checked or looked at.
 
 
 ## __Question 1:__
-# _How does the proportion of hotel residents differ from customer type at two different types of hotels?_
-The customer type variable has 4 different values: Contract, Group, Transient, Transient-Party. I created a bar graph that displays the proportion monthly for each of the four customer types at both types of hotels
+# _How does the proportion of hotel residents differ from customer type at the two different types of hotels?_
+Hotels are used all around the world for work, vacation and sometimes just a place to stay if needed. These different reasons to stay at a hotel bring in different types of customers. The variable customer_type has 4 different values each responding to a different way of booking: Contract, Group, Transient, Transient-Party. To compare the proportion of hotel residents by customer type, I must first seperate the canceled bookings from the actual residents.
 
 ```{r}
 hotel_stays <- hotels %>%
   filter(is_canceled == 0)
 ```
+Once I was able to just have the customers who actually stayed. I began to separate each of the hotel stays by their month and split the bar graph into the proportions of customer types. The bar graph shows that the contract customer type consistently remains the highest percentage in the months of summer and early autumn but are the lowest customer type in the months of January, February and March.
+```{r}
+hotel_stays %>%
+  mutate(arrival_date_month = factor(arrival_date_month, levels = month.name)) %>%
+  count(hotel, arrival_date_month, customer_type) %>%
+  group_by(hotel, customer_type) %>%
+  mutate(proportion = n / sum(n)) %>%
+  ggplot(aes(arrival_date_month, proportion, fill = customer_type)) +
+  geom_col(position = "dodge") +
+  scale_y_continuous(labels = scales::percent_format()) +
+  #facet_wrap(~hotel, nrow = 2) +
+  labs( title = "Proportional Hotel Stays Per Customer Type (Monthly)",
+        x = NULL, y = "Proportion of hotel stays", fill = NULL) +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+
+After I analyzed the different proportions of hotel resident types each month, I then split the first graph into hotel types creating two separate graphs to see if the type of hotel had any influence on the customer proportions traveling. When looking at the second graph you can see that the customer types proportion is split between the two graphs with the months of summer being centered to the resort hotel and the months of early autumn (August, September, October) being towards the city hotel. Showing that if you're a hotel manager it would be in your best intrest to focus towards the contract customer type during the spring, summer and fall months because that is where the big numbers and money are.
 
 ```{r}
 hotel_stays %>%
@@ -47,10 +69,9 @@ hotel_stays %>%
   theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
 
-
 ## __Question 2:__
 # _How do cancellations differ between the two types of hotels?_
-The two types of hotels in the variable hotel are City and Resort. The first of the two graph demonstrates the cancellation rates for City Hotels and Resort Hotels. The cancellation rates shows that the percentage of canceled bookings is higher for both types of hotels, with the city hotel being responsible for 38.7 % of cancellations and the resort hotel making up 24.2% more. The second of the two graphs below displays box-plots for the canceled bookings and non canceled bookings, and then plots the lead_time value for both city hotels and resort hotels. The cancellation rates shows that the percentage of canceled bookings is higher for both types of hotels, with the city hotel being responsible for 38.7 % of cancellations and the resort hotel making up 24.2% more. The boxplot shows that their is less lead time on the average canceled booking.
+The two types of hotels in the variable hotel are City and Resort. The first of the two graphs demonstrates the cancellation rates for City Hotels and Resort Hotels. The cancellation rates graph shows that the percentage of canceled bookings is higher than the rate of non canceled bookings for both types of hotels, with the city hotel being responsible for 38.7 % of cancellations and the resort hotel making up 24.2% more. The second of the two graphs below displays box-plots for the canceled bookings and non canceled bookings, and then plots the lead_time value for both city hotels and resort hotels. The box plots show that for both types of hotels the people who cancel tend to book closer to the "arrival" date than people who do not cancel. Showing that trips are less likeley to fall through when they are planned farther ahead.
 
 ```{r}
 plot1 <- ggplot(hotels, aes(hotel, prop.table(stat(count)), fill = factor(is_canceled), label = scales::percent(prop.table(stat(count))))) +
@@ -73,8 +94,8 @@ grid.arrange(plot1, plot2, ncol = 2)
 
 
 ## __Question 3?__
-# _How does the booking status change for each country?_ 
-The booking status has a wide variety of values when comparing coutries 
+# _How does the amount of hotel stays change for each countries hotel type?_ 
+The hotel resident for each countries hotel type differs but how? To be able to obtain the amount of hotel stays each country had, I had to get rid of all of the bookings that were cancelled again. After I did this I was able to group each of the hotel checkouts by countries and count them. I chose to do the countries whose number of hotel checkouts were higher than 1500. I then plotted the data by creating a bar graph which counted the countries total hotel residents by hotel type. I then analyzed the graph and noticed that portugals hotel traffic is extremley high. I also noticed that France had very few resort hotel stays compared to their city hotel stays. Displaying that France's hotel attraction is in the city and not at a resort styled hotel.
 ```{r}
 library(countrycode)
 hotels_1 <- hotels[hotels$reservation_status == "Check-Out",]
@@ -84,12 +105,26 @@ sub_hotel <- hotels_1 %>%
 sub_hotel$county_name <- countrycode(sub_hotel$country, origin = "iso3c", destination = "country.name")
 ggplot(sub_hotel, aes(county_name, fill = hotel)) + 
   geom_bar(stat = "count", position = position_dodge()) + 
-  labs(title = "Booking Status by Country",
+  labs(title = "Hotel Stays by Country",
+       x = "Country",
+       y = "Count") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5),
+        panel.background = element_blank())
+```
+I then created a facet of the plot with the arrival month variable which showed each countries hotel stays monthly for both hotel types. This data was very interesting as it shows how Portugal has lots of resort hotel residents in the months of January, August and February.
+
+```{r}
+library(countrycode)
+hotels_1 <- hotels[hotels$reservation_status == "Check-Out",]
+sub_hotel <- hotels_1 %>% 
+  group_by(country) %>% 
+  filter(n() > 1500)
+sub_hotel$county_name <- countrycode(sub_hotel$country, origin = "iso3c", destination = "country.name")
+ggplot(sub_hotel, aes(county_name, fill = hotel)) + 
+  geom_bar(stat = "count", position = position_dodge()) + 
+  labs(title = "Hotel Stays by Country",
        x = "Country",
        y = "Count") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5),
         panel.background = element_blank()) + facet_wrap(~arrival_date_month)
 ```
-
-
-

@@ -1,10 +1,11 @@
 ---
-title: NFL Attendance
-author: ~
+title: "NFL Attendance"
+author: "null"
 date: '2020-12-10'
-slug: nfl-attendance
+output: word_document
 categories: []
 tags: []
+slug: nfl-attendance
 ---
 
 <link href="index_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
@@ -15,23 +16,29 @@ tags: []
 standings &lt;- readr::read_csv(&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/standings.csv&#39;)
 games &lt;- readr::read_csv(&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv&#39;)</code></pre>
 <p><strong><strong>NFL Attendance</strong></strong></p>
-<p>For this NFL Attendance project, I am using 3 proposed datasets coming from the Tidy Tuesday website to analyze NFL attendance and how it affects the NFL. The three datasets are filled with data coming from the source Pro Football Reference. The first dataset is attendance.csv and it consists of 10,846 observations and 8 different variables.</p>
-<p>The variable team is used to represents the team’s city and the variable team_name is used to represent the team’s mascot. The variable year represents what year the data is from. The variable total shows the total attendance across 17 weeks with 1 week = no game. The variable home shows the home teams attendance for the game and the variable away shows the away team’s attendance. The variable week represents the week number for the season. Lastly the weekly_attendance variable shows the weekly attendance number.</p>
-<p>The second dataset we used to analyze the affect of attendance on an NFL game is standings.csv. The dataset consists of 638 observations and 15 variables. The variables team and team_name still both represent the team’s city and the team’s mascot. The variable year represents the year. The variable wins represent the wins from 0 to 16 and the variable loss represent the losses from 0 to 16. The variables points_for and points_against represent the offensive and defensive performance by showing the points scored/the points scored on. The variable points_differential shows the point differential by performing (points_for – points_against). The variable margin_of_victory shows the margin of victory in a game by performing (Points Scored – Points Allowed)/ Games Played. The variable strength_of_schedule measures the Average quality of opponent measured by the SRS(Simple Rating System).. The variable simple_rating measures a team quality relative to average (0.0) by using the SRS “SRS = MoV + SoS = OSRS + DSRS”. The variables offensive_ranking and defensive_ranking measure a teams quality of offense or defense relative to the SRS(Simple Rating System).. The variable playoffs shows wether a team made the playoffs or not. The variable sb_winner shows if the team won the superbowl or not.</p>
+<p>For my NFL Attendance project, I am using 3 proposed datasets coming from the Tidy Tuesdays website to analyze NFL attendance and how it affects the game. The three datasets are filled with data coming from the source Pro Football Reference. The first dataset is attendance.csv and it consists of 10,846 observations and 8 different variables.</p>
+<pre class="r"><code>head(attendance50)</code></pre>
+<pre><code>## # A tibble: 6 x 8
+##   team    team_name  year  total   home   away  week weekly_attendance
+##   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;             &lt;dbl&gt;
+## 1 Arizona Cardinals  2000 893926 387475 506451     1             77434
+## 2 Arizona Cardinals  2000 893926 387475 506451     2             66009
+## 3 Arizona Cardinals  2000 893926 387475 506451     3                NA
+## 4 Arizona Cardinals  2000 893926 387475 506451     4             71801
+## 5 Arizona Cardinals  2000 893926 387475 506451     5             66985
+## 6 Arizona Cardinals  2000 893926 387475 506451     6             44296</code></pre>
+<p>The variable team is used to represents the team’s city and the variable team_name is used to represent the team’s mascot. The variable year represents what year the game is from. The variable total shows the total attendance for a team’s 17 weeks with each team having one bye week. The variable home shows the home teams attendance for the season and the variable away shows the away attendance. The variable week represents the week number for the season. Lastly the weekly_attendance variable shows the weekly attendance number.</p>
+<p>The second dataset we used to analyze the affect of attendance on an NFL game is standings.csv. The dataset consists of 638 observations and 15 variables. The variables team and team_name still both represent the team’s city and the team’s mascot. The variable year represents the year. The variable wins represent the wins from 0 to 16 and the variable loss represent the losses from 0 to 16. The variables points_for and points_against represent the offensive and defensive performance by showing the points scored/the points scored on. The variable points_differential shows the point differential by performing (points_for – points_against). The variable margin_of_victory shows the margin of victory in a game by performing (Points Scored – Points Allowed)/ Games Played. The variable strength_of_schedule measures the Average quality of opponent measured by the SRS(Simple Rating System).. The variable simple_rating measures a team quality relative to average (0.0) by using the SRS “SRS = MoV + SoS = OSRS + DSRS”. The variables offensive_ranking and defensive_ranking measure a teams quality of offense or defense relative to the SRS(Simple Rating System). The variables playoffs and sb_winner shows wether a team made the playoffs or if they won the superbowl.</p>
 <div id="question-1" class="section level2">
 <h2><strong>Question 1:</strong></h2>
 </div>
-<div id="was-there-a-correlation-between-home-attendance-and-win-percentage-in-the-2000-nfl-season" class="section level1">
-<h1><em>Was there a correlation between Home attendance and Win percentage in the 2000 NFL Season?</em></h1>
-<p>To find the correlation between Home attendance and Win percentage in the 2000 NFL season I created a graph of the average yearly attendance for each team and plotted it on the x-axis variable and on the y-axis variable I used the win percentage for the teams.</p>
+<div id="is-there-a-correlation-between-home-attendance-and-win-percentage-in-the-nfl" class="section level1">
+<h1><em>Is there a correlation between Home attendance and Win percentage in the NFL?</em></h1>
+<p>To find the correlation between Home attendance and Win percentage in the NFL I first had to omit the NA values so I could find the find the average home attendance for each team by dividing by the number of total home fans by games. I then created created another variable for the win percentage of each team by dividing the total wins by wins and losses.</p>
 <pre class="r"><code>nfl_data &lt;- dplyr::left_join(attendance50, standings, games, by = c(&quot;year&quot;, &quot;team_name&quot;, &quot;team&quot;))
 nfl_data = na.omit(nfl_data)
-nfl_data_numeric &lt;- mutate_all(nfl_data, function(x) as.numeric(as.character(x)))</code></pre>
-<pre><code>## Warning in (function (x) : NAs introduced by coercion</code></pre>
-<pre><code>## Warning in (function (x) : NAs introduced by coercion</code></pre>
-<pre><code>## Warning in (function (x) : NAs introduced by coercion</code></pre>
-<pre><code>## Warning in (function (x) : NAs introduced by coercion</code></pre>
-<pre class="r"><code>nfl_data_numeric[&#39;team&#39;] = nfl_data[&#39;team&#39;]
+nfl_data_numeric &lt;- mutate_all(nfl_data, function(x) suppressWarnings(as.numeric(as.character(x))))
+nfl_data_numeric[&#39;team&#39;] = nfl_data[&#39;team&#39;]
 nfl_data_numeric[&#39;team_name&#39;] = nfl_data[&#39;team_name&#39;]
 nfl_data_numeric[&#39;playoffs&#39;] = nfl_data[&#39;playoffs&#39;]
 nfl_data_numeric[&#39;sb_winner&#39;] = nfl_data[&#39;sb_winner&#39;]
@@ -39,127 +46,82 @@ nfl_data_numeric[&#39;sb_winner&#39;] = nfl_data[&#39;sb_winner&#39;]
 attendance = nfl_data_numeric[match(unique(nfl_data_numeric$home), nfl_data_numeric$home),]
 attendance = subset(attendance, select = c(team_name, home, year, wins, loss))
 attendance[&#39;win_percent&#39;] = attendance[&#39;wins&#39;]/(attendance[&#39;wins&#39;]+attendance[&#39;loss&#39;])
-attendance2 &lt;- filter(attendance, year == &quot;2000&quot;)
-ggplot(attendance2, aes(home, win_percent)) +
+attendance[&#39;average_home_attendance&#39;] = attendance[&#39;home&#39;]/16</code></pre>
+<p>After I had created these variables I went to plot each teams dot with their average home attendance on the x axis and their all time win percent on the y axis. I then called the facet_wrap function to look at every years dots for average home attendance vs win percent. In the visuals below you can see that for almost all 20 years we see the teams with the higher percent having a larger home fan base. Showing that teams with larger fan bases tend to win.</p>
+<pre class="r"><code>ggplot(attendance, aes(average_home_attendance, win_percent)) + 
+  geom_point(alpha = .8) +
+  theme(axis.text.x = element_text(angle = 55, vjust = 1.05, hjust = 1.05)) +
+  scale_y_continuous(labels = percent_format(), limits = c(0.0,1)) +
   geom_smooth() +
-  labs(title = &quot;Home Attendance Vs Win Percent (2000 NFL Season)&quot;, x = &quot;Yearly Attendance&quot;, y = &quot;Win Percentage&quot; )</code></pre>
+  facet_wrap(~year) +
+  ggtitle(&quot;Win Percentages vs Average Home Attendance&quot;) + 
+  xlab(&quot;Average Home Attendance&quot;) +
+  ylab(&quot;Win Percentage&quot;)</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<pre class="r"><code>attendance2</code></pre>
-<pre><code>## # A tibble: 31 x 6
-##    team_name   home  year  wins  loss win_percent
-##    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;
-##  1 Cardinals 387475  2000     3    13       0.188
-##  2 Falcons   422814  2000     4    12       0.25 
-##  3 Ravens    551695  2000    12     4       0.75 
-##  4 Bills     560695  2000     8     8       0.5  
-##  5 Panthers  583489  2000     7     9       0.438
-##  6 Bears     535552  2000     5    11       0.312
-##  7 Bengals   469992  2000     4    12       0.25 
-##  8 Browns    581544  2000     3    13       0.188
-##  9 Cowboys   504360  2000     5    11       0.312
-## 10 Broncos   604042  2000    11     5       0.688
-## # … with 21 more rows</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_smooth).</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <div id="question-2" class="section level2">
 <h2><strong>Question 2:</strong></h2>
 </div>
 </div>
-<div id="how-does-division-affect-attendance-and-win-percentage-in-the-american-football-conference" class="section level1">
-<h1><em>How does division affect attendance and win percentage in the American Football Conference?</em></h1>
-<p>The American Football conference is divided into four divisions and each of these divisions consists of four teams. I first needed to group the teams into their corresponding conferences and then join them into one data frame. I then printed the average attendance for each conference on a bar graph and on a separate bar graph I show the win percentages for each conference.</p>
-<pre class="r"><code>afc_west = dplyr::filter(nfl_data_numeric, team %in% c(&quot;Kansas City&quot;, &quot;Oakland&quot;, &quot;Denver&quot;, &quot;San Diego&quot;))
-attendance = afc_west[match(unique(afc_west$home), afc_west$home),]
-attendance = subset(attendance, select = c(team_name, home, wins, loss))
-attendance &lt;- aggregate(. ~  team_name, attendance, sum)
-attendance[&#39;win_percent&#39;] = attendance[&#39;wins&#39;]/(attendance[&#39;wins&#39;]+attendance[&#39;loss&#39;])
-afc_west &lt;- attendance
-afc_west</code></pre>
-<pre><code>##   team_name     home wins loss win_percent
-## 1   Broncos 12159820  182  138    0.568750
-## 2  Chargers  8605896  136  136    0.500000
-## 3    Chiefs 11964694  166  154    0.518750
-## 4   Raiders  8831829  125  195    0.390625</code></pre>
-<pre class="r"><code>afc_east = dplyr::filter(nfl_data_numeric, team_name %in% c(&quot;Bills&quot;, &quot;Dolphins&quot;, &quot;Patriots&quot;, &quot;Jets&quot;))
-attendance = afc_east[match(unique(afc_east$home), afc_east$home),]
-attendance = subset(attendance, select = c(team_name, home, wins, loss))
-attendance &lt;- aggregate(. ~  team_name, attendance, sum)
-attendance[&#39;win_percent&#39;] = attendance[&#39;wins&#39;]/(attendance[&#39;wins&#39;]+attendance[&#39;loss&#39;])
-afc_east &lt;- attendance
-afc_east</code></pre>
-<pre><code>##   team_name     home wins loss win_percent
-## 1     Bills 10784670  137  183   0.4281250
-## 2  Dolphins 10929713  149  171   0.4656250
-## 3      Jets 11232265  133  155   0.4618056
-## 4  Patriots  3191572   65   31   0.6770833</code></pre>
-<pre class="r"><code>afc_north = dplyr::filter(nfl_data_numeric, team %in% c(&quot;Pittsburgh&quot;, &quot;Cleveland&quot;, &quot;Baltimore&quot;, &quot;Cincinnati&quot;))
-attendance = afc_north[match(unique(afc_north$home), afc_north$home),]
-attendance = subset(attendance, select = c(team_name, home, wins, loss))
-attendance &lt;- aggregate(. ~  team_name, attendance, sum)
-attendance[&#39;win_percent&#39;] = attendance[&#39;wins&#39;]/(attendance[&#39;wins&#39;]+attendance[&#39;loss&#39;])
-afc_north &lt;- attendance
-afc_north</code></pre>
-<pre><code>##   team_name     home wins loss win_percent
-## 1   Bengals  9527276  145  172   0.4574132
-## 2    Browns 11114495   99  220   0.3103448
-## 3    Ravens 11291595  190  130   0.5937500
-## 4  Steelers  9918492  205  113   0.6446541</code></pre>
-<pre class="r"><code>afc_south = dplyr::filter(nfl_data_numeric, team %in% c(&quot;Tennessee&quot;, &quot;Indianapolis&quot;, &quot;Houston&quot;, &quot;Jacksonville&quot;))
-attendance = afc_south[match(unique(afc_south$home), afc_south$home),]
-attendance = subset(attendance, select = c(team_name, home, wins, loss))
-attendance &lt;- aggregate(. ~  team_name, attendance, sum)
-attendance[&#39;win_percent&#39;] = attendance[&#39;wins&#39;]/(attendance[&#39;wins&#39;]+attendance[&#39;loss&#39;])
-afc_south &lt;- attendance
-afc_south</code></pre>
-<pre><code>##   team_name     home wins loss win_percent
-## 1     Colts  9855079  197  123   0.6156250
-## 2   Jaguars 10054557  127  193   0.3968750
-## 3    Texans 10237938  131  157   0.4548611
-## 4    Titans  6429529   99   93   0.5156250</code></pre>
-<pre class="r"><code>afc_west_no_name = subset(afc_west, select = -c(team_name))
-afc_west_avg = colMeans(afc_west_no_name)
-#afc_west_avg
+<div id="can-a-team-with-a-negative-point-differential-make-the-playoffs-or-maybe-even-win-the-superbowl" class="section level1">
+<h1>_ Can a team with a negative point differential make the playoffs or maybe even win the superbowl?</h1>
+<p>A teams point differential is made up of the net amount of points scored and points scored agianst. That being said is it possible for a team to make the playoffs while being outscored in total by their opponents.</p>
+<pre class="r"><code>nfl_data1 = select(nfl_data, team_name, points_differential, year, playoffs)
+nfl_data1 = unique(nfl_data1)
+head(nfl_data1)</code></pre>
+<pre><code>## # A tibble: 6 x 4
+##   team_name points_differential  year playoffs   
+##   &lt;chr&gt;                   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;      
+## 1 Cardinals                -233  2000 No Playoffs
+## 2 Falcons                  -161  2000 No Playoffs
+## 3 Ravens                    168  2000 Playoffs   
+## 4 Bills                     -35  2000 No Playoffs
+## 5 Panthers                    0  2000 No Playoffs
+## 6 Bears                    -139  2000 No Playoffs</code></pre>
+<p>To see if this is possible I first plotted each years point differentials with the red dots meaning they did not make the playoffs and a blue dot meaning they did. In the data I found a good few teams with more points scored than scored against that had missed the playoffs but I found only a very few who had made the playoffs being outscored proving it is possible. I then decided to graph each team on the X-axis to see which of the teams had made the playoffs being outscored and I found that the Broncos, Bills and Seahawks had all made the playoffs with a negative net point differential.</p>
+<pre class="r"><code>g5 &lt;- ggplot(nfl_data1, aes(year, points_differential, fill = playoffs)) +
+geom_point(aes(color = playoffs)) +
+theme(legend.position = &quot;right&quot;) +
+xlab(&quot;Year&quot;) +
+ylab(&quot;Points Differential&quot;) +
+ggtitle(&quot;Points Differential per Year 2000-2019&quot;) 
 
-afc_east_no_name = subset(afc_east, select = -c(team_name))
-afc_east_avg = colMeans(afc_east_no_name)
-#afc_east_avg
-
-afc_north_no_name = subset(afc_north, select = -c(team_name))
-afc_north_avg = colMeans(afc_north_no_name)
-#afc_north_avg
-
-afc_south_no_name = subset(afc_south, select = -c(team_name))
-afc_south_avg = colMeans(afc_south_no_name)
-#afc_south_avg
-
-total &lt;- rbind(afc_west_avg, afc_east_avg, afc_north_avg, afc_south_avg)
-total &lt;- as.data.frame(total)
-total[&#39;home&#39;] = total[&#39;home&#39;]
-total</code></pre>
-<pre><code>##                   home   wins   loss win_percent
-## afc_west_avg  10390560 152.25 155.75   0.4945312
-## afc_east_avg   9034555 121.00 135.00   0.5081597
-## afc_north_avg 10462964 159.75 158.75   0.5015405
-## afc_south_avg  9144276 138.50 141.50   0.4957465</code></pre>
-<pre class="r"><code>plot1 &lt;- barplot(t(as.matrix(total[&#39;home&#39;])), main = &quot;Average Attendance Per AFC Divsion&quot;, names.arg=c(&quot;AFC West&quot;, &quot;AFC East&quot;, &quot;AFC North&quot;, &quot;AFC South&quot;), beside=TRUE)</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<pre class="r"><code>plot2 &lt;- barplot(t(as.matrix(total[&#39;win_percent&#39;])), ylim = c(0.2,0.55), main = &quot;Win Percentage Per AFC Divsion&quot;, cex.axis=1.3, names.arg=c(&quot;AFC West&quot;, &quot;AFC East&quot;, &quot;AFC North&quot;, &quot;AFC South&quot;), beside=TRUE)</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+g6 &lt;- ggplot(nfl_data1, aes(team_name, points_differential, fill = playoffs)) +
+  geom_point(aes(color = playoffs)) +
+  theme(legend.position = &quot;right&quot;, axis.text.x = element_text(angle = 60, vjust = 1.05, hjust = 1.05)) +
+  xlab(&quot;Team Name&quot;) +
+  ylab(&quot;Points Differential&quot;) +
+  ggtitle(&quot;Points Differential per Team 2000-2019&quot;)
+ 
+grid.arrange(g5, g6, nrow = 2)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Next I decided to see if a team had ever won the superbowl while being outscored in the season. To make this dataset cleaner I decided to remove any teams that had not made the playoffs and created a legend with the color red being teams that did not win and blue being for the Superbowl champs. I then plotted the graph and saw that the New York Giants had actually won the Superbowl while having a negative point differential in their season.</p>
+<pre class="r"><code>nfl_data2 = select(nfl_data, team_name, points_differential, year, playoffs, sb_winner)
+nfl_data2 = unique((nfl_data2))
+nfl_data2 = subset(nfl_data2, playoffs==&#39;Playoffs&#39;)
+ 
+ g7 &lt;- ggplot(nfl_data2, aes(team_name, points_differential, fill = sb_winner)) +
+   geom_point(aes(color = sb_winner)) +
+   theme(legend.position = &quot;right&quot;, axis.text.x = element_text(angle = 60, vjust = 1.05, hjust = 1.05)) +
+    xlab(&quot;Team Name&quot;) +
+   ylab(&quot;Points Differential&quot;) +
+   ggtitle(&quot;Points Differential per Playoff Teams 2000-2019&quot;)
+ g7</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <div id="question-3" class="section level2">
 <h2><strong>Question 3:</strong></h2>
 </div>
 </div>
 <div id="how-does-nfl-wide-attendance-change-throughout-the-season" class="section level1">
 <h1><em>How does NFL wide attendance change throughout the season?</em></h1>
-<p>NFL attendance fluctuates throughout the season and depending on the weekend it can have a large effect. The graph below presents the average game attendance each weekend through the years 2000 to 2019. This graph displays the average weekly attendance being its highest at the beginning and end of the season.</p>
-<pre class="r"><code>new_data &lt;- subset(nfl_data_numeric, select = -c(team_name, playoffs, sb_winner, team) )
-week_att = aggregate(. ~  week, new_data, sum)
-week_att = subset(week_att, select = c(week, weekly_attendance))
-week_att[&#39;weekly_attendance&#39;] = week_att[&#39;weekly_attendance&#39;]/20/32
-ggplot(week_att, aes(week, weekly_attendance)) +
-  geom_col() +
-  scale_x_continuous(breaks=c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17)) +
-  labs(title = &quot;Average NFL Game Attendance, Per Week&quot;,
-       x = &quot;Week&quot;,
-       y = &quot;Weekly Attendance&quot;)</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>NFL attendance fluctuates throughout the season as different teams play each week creating variability in the amount of fans attending the games each week. To better understand how each week number differs I created a graph below that presents the boxplots of each NFL week’s weekly attendance through the years 2000 to 2019. The reason I chose to use box-plots for my analyziation is because of the abillity to see the IQR, Max, Min, Average and outliers. In the plots I found that weeks’ 1, 5, 8 and 17 were all on the higher side attendance wise and that weeks 10 and 13 had less attendance then average. This differnce is very miscule as the box plots are almost identical in shape and size with an average of about 65,000 fans per NFL game from the time period of 2000 to 2019.</p>
+<pre class="r"><code> nfl_data %&gt;%
+ mutate(week = factor(week)) %&gt;%
+ ggplot(aes(week, weekly_attendance, fill = week)) +
+ geom_boxplot(show.legend = FALSE, outlier.alpha = 0.3) + 
+  labs(title = &quot;Week Vs Attendance 2000 - 2019&quot;,  x = &quot;NFL Week&quot;, y = &quot;Weekly NFL game attendance&quot;) +
+  theme_grey() +
+  scale_y_continuous(label = scales::unit_format(unit = &quot;K&quot;, scale = 1/1000, sep = &quot;&quot;)) </code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
