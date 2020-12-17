@@ -199,8 +199,8 @@ labs(title = "Week Vs Attendance 2000 - 2019", x = "NFL Week", y = "Weekly NFL g
 theme_grey() +
 
 scale_y_continuous(label = scales::unit_format(unit = "K", scale = 1/1000, sep = ""))
-```
 
+```
 
 
 
